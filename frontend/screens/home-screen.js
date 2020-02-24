@@ -1,33 +1,55 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, Dimensions} from 'react-native';
 import logo from '../assets/home-screen/ranepa.png'
 
 
 const HomeScreen = () => {
     return (
-        <View style={styles.container}>
-            <View style={styles.imageContainer}>
-                <Image style={styles.image} source={logo}/>
+        <View style={s.container}>
+            <View style={s.home}>
+                <Image style={s.image} source={logo} alt={'logo'}/>
+                <Text style={s.main_text}>NIU RANEPA CLIENT</Text>
+                <Text style={s.description}>{`Независимый клиент \n Нижегородского филиала РАНХиГС`}</Text>
+                <Button
+                    style={s.login}
+                    title="Войти"/>
+                <Button style={s.login} title="Зарегистрироваться"/>
             </View>
-            <Text style={styles.headerText}>NIU RANEPA CLIENT</Text>
         </View>
     );
 }
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: '#b20000'
+        backgroundColor: '#EAEAEA',
+        width: Dimensions.get('window').width,
     },
-    headerText: {
-        marginTop: 30,
-        fontSize: 30,
-        fontWeight: '600',
-        color: '#fff'
+    home: {
+        width: '80%'
+    },
+    image: {
+        marginTop: 200,
+        width: 90,
+        height: 120
+    },
+    main_text: {
+        marginTop: 65,
+        fontSize: 35,
+        fontWeight: 'bold',
+        color: '#898181'
+    },
+    description: {
+        fontSize: 15,
+        color: '#898181',
+        marginTop: 15
+    },
+    login: {
+        width: '100%',
+        fontSize: 20
     }
-
 })
 
 

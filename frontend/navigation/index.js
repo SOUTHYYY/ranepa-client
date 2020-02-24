@@ -1,17 +1,19 @@
 import {createStackNavigator} from 'react-navigation-stack'
-import {HomeScreen} from '../screens/index'
+import {
+    HomeScreen,
+    TimetableScreen
+} from '../screens/index'
 
 const AppNavigator = createStackNavigator(
     {
         Home: HomeScreen,
+        Timetable: TimetableScreen
     },
     {
-        initialRouteName: 'Home',
+        initialRouteName: 'Timetable',
         headerMode: "none"
     }
 )
 
 export default AppNavigator
-
-
 
