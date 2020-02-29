@@ -6,70 +6,76 @@
  * @flow
  */
 
-import React, {Component} from 'react';
+import React from 'react';
+import { Button, Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+//import all the basic component we have used
+import Ionicons from 'react-native-vector-icons/Ionicons';
+//import Ionicons to show the icon for bottom options
+
+
 import {createAppContainer} from 'react-navigation';
-import AppNavigator from './navigation';
-import MapboxGL from '@react-native-mapbox-gl/maps';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
+import {createStackNavigator} from 'react-navigation-stack';
 
-import {
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-  TapBarPage,
-} from 'react-native';
+import {MapScreen, TimetableScreen} from "./screens";
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-MapboxGL.setAccessToken(
-  'pk.eyJ1IjoibWFmYWhlcyIsImEiOiJjazV6cW5xdDUwMDRrM21ueHF2Z3EzY3VyIn0.RRuRqnVCy3VWno0v3Xk__w',
+// const HomeStack = createStackNavigator(
+//     {
+//       //Defination of Navigaton from home screen
+//     },
+//     {
+//       defaultNavigationOptions: {
+//         //Header customization of the perticular Screen
+//         headerStyle: {
+//           backgroundColor: '#42f44b',
+//         },
+//         headerTintColor: '#FFFFFF',
+//         title: 'Home',
+//         //Header title
+//       },
+//     }
+// );
+// const SettingsStack = createStackNavigator(
+//     {
+//       //Defination of Navigaton from setting screen
+//       Map: { screen: MapScreen },
+//       Timetable: {screen: TimetableScreen}
+//     },
+//     {
+//       defaultNavigationOptions: {
+//         //Header customization of the perticular Screen
+//         headerStyle: {
+//           backgroundColor: '#42f44b',
+//         },
+//         headerTintColor: '#FFFFFF',
+//         title: 'Settings',
+//         //Header title
+//       },
+//     }
+// );
+const App = createBottomTabNavigator(
+    {
+      Map: { screen: MapScreen },
+      Timetable: {screen: TimetableScreen}
+    },
+    {
+      defaultNavigationOptions: ({ navigation }) => ({
+        tabBarIcon: ({ focused, horizontal, tintColor }) => {
+          const { routeName } = navigation.state;
+          let IconComponent = Ionicons;
+          let iconName;
+          if (routeName === 'Map') {
+            iconName = `ios-information-circle${focused ? '' : '-outline'}`;
+          } else if (routeName === 'Timetable') {
+            iconName = `ios-checkmark-circle${focused ? '' : '-outline'}`;
+          }
+          return <IconComponent name={iconName} size={25} color={tintColor} />;
+        },
+      }),
+      tabBarOptions: {
+        activeTintColor: '#42f44b',
+        inactiveTintColor: 'gray',
+      },
+    }
 );
-const width = '80%';
-const styles = StyleSheet.create({
-  page: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  container: {
-    height: 900,
-    width: 900,
-    backgroundColor: 'tomato',
-  },
-  map: {
-    flex: 1,
-  },
-});
-export default class App extends Component {
-  componentDidMount() {
-    MapboxGL.setTelemetryEnabled(false);
-  }
-
-  render() {
-    return (
-      <View>
-        <View style={styles.page}>
-          <View style={styles.container}>
-            <MapboxGL.MapView
-              styleURL={'mapbox://styles/mafahes/ck5zqz49333o11intge32b2pf'}
-              style={styles.map}>
-              <MapboxGL.Camera
-                zoomLevel={12}
-                centerCoordinate={[43.991, 56.307]}
-              />
-            </MapboxGL.MapView>
-          </View>
-        </View>
-      </View>
-    );
-  }
-}
+export default createAppContainer(App);

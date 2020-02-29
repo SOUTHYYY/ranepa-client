@@ -1,4 +1,4 @@
-import HomeScreen from './home-screen';
 import TimetableScreen from './timetable-screen';
+import MapScreen from "./map-screen";
 
-export {HomeScreen, TimetableScreen};
+export {TimetableScreen, MapScreen};
