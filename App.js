@@ -1,43 +1,52 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
 
 import React from 'react';
-import { Button, Text, View, TouchableOpacity, StyleSheet } from 'react-native';
-import {Ionicons} from 'react-native-vector-icons/Ionicons';
-//import Ionicons to show the icon for bottom options
-
-
-import {createAppContainer} from 'react-navigation';
-import {createBottomTabNavigator} from 'react-navigation-tabs';
+import {Provider} from 'react-redux'
+import {createStore, applyMiddleware} from 'redux'
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import {NavigationContainer} from '@react-navigation/native'
+import reducers from './redux'
 
 import {MapScreen, TimetableScreen} from "./screens";
-const App = createBottomTabNavigator(
-    {
-      Map: { screen: MapScreen },
-      Timetable: {screen: TimetableScreen}
-    },
-    {
-      defaultNavigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused, horizontal, tintColor }) => {
-          const { routeName } = navigation.state;
-          let IconComponent = Ionicons;
-          let iconName;
-          if (routeName === 'Map') {
-            iconName = `ios-information-circle${focused ? '' : '-outline'}`;
-          } else if (routeName === 'Timetable') {
-            iconName = `ios-checkmark-circle${focused ? '' : '-outline'}`;
-          }
-        },
-      }),
-      tabBarOptions: {
-        activeTintColor: '#E61313',
-        inactiveTintColor: '#000',
-      },
-    }
-);
-export default createAppContainer(App);
+import thunk from "redux-thunk";
+
+const Tab = createBottomTabNavigator();
+
+const store = createStore(reducers, applyMiddleware(thunk))
+
+export default function App() {
+    return (
+        <Provider store={store}>
+            <NavigationContainer>
+                <Tab.Navigator
+                    initialRouteName="Map"
+                    tabBarOptions={{
+                        activeTintColor: '#E61313',
+                        selectedIconColor: '#E61313'
+                    }}
+                >
+                    <Tab.Screen
+                        name="Map"
+                        component={MapScreen}
+                        options={{
+                            tabBarLabel: 'Карта',
+                            tabBarIcon: ({color, size}) => (
+                                <Icon name="map" color={color} size={size}/>
+                            ),
+                        }}
+                    />
+                    <Tab.Screen
+                        name="Timetable"
+                        component={TimetableScreen}
+                        options={{
+                            tabBarLabel: 'Расписание',
+                            tabBarIcon: ({color, size}) => (
+                                <Icon name="calendar" color={color} size={size}/>
+                            ),
+                        }}
+                    />
+                </Tab.Navigator>
+            </NavigationContainer>
+        </Provider>
+    );
+}

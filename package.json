@@ -30,7 +30,10 @@
     "react-native-web": "~0.11.7",
     "react-navigation": "^4.2.2",
     "react-navigation-stack": "^2.1.1",
-    "react-navigation-tabs": "^2.8.2"
+    "react-navigation-tabs": "^2.8.2",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "7.8.4",
@@ -46,6 +49,8 @@
     "preset": "react-native"
   },
   "rnpm": {
-    "assets": ["node_modules/react-native-vector-icons/Fonts"]
+    "assets": [
+      "node_modules/react-native-vector-icons/Fonts"
+    ]
   }
 }
